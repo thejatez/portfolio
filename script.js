@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const activeLink = document.querySelector(`.nav-item[href="#${id}"]`);
         if (activeLink) {
           activeLink.classList.add('active');
+          // Smoothly scroll the pill-nav horizontally to keep the active link in view
+          activeLink.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
       }
     });
