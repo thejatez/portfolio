@@ -27,12 +27,6 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-main);
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('bg.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
