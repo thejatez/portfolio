@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hanuma Teja | Software Engineer</title>
+  <meta name="description" content="Portfolio of Hanuma Teja — Software Engineer specializing in Spring Boot, Kafka, AWS, and reliable APIs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="page-loader">
+    <div class="loader-text"><span id="loader-typing"></span><span class="cursor">|</span></div>
+  </div>
+  <nav class="pill-nav">
+    <div class="nav-links">
+      <a href="#home" class="nav-item active">Home<span class="dot"></span></a>
+      <a href="#about" class="nav-item">About<span class="dot"></span></a>
+      <a href="#experience" class="nav-item">Experience<span class="dot"></span></a>
+      <a href="#stack" class="nav-item">Stack<span class="dot"></span></a>
+      <a href="#projects" class="nav-item">Projects<span class="dot"></span></a>
+      <a href="#contact" class="nav-item">Contact<span class="dot"></span></a>
+    </div>
+  </nav>
+  <main class="main-container">
+    <section class="section hero" id="home">
+      <h1 class="hero-title">
+        <span id="typing-text"></span><span class="cursor">|</span>
+      </h1>
+      <p class="hero-desc fade-up" style="transition-delay: 0.2s;">
+        Building reliable backend systems and full-stack web applications.
+      </p>
+      <div class="hero-actions fade-up" style="transition-delay: 0.4s;">
+        <a href="#projects" class="btn-primary">View Work <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px;"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+        <a href="mailto:hanumathejapg@gmail.com" class="btn-secondary">Get in Touch</a>
+      </div>
+    </section>
+    <section class="section" id="about">
+      <div class="section-header-left fade-up">
+        <span class="section-tag">ABOUT ME</span>
+        <h3 class="section-heading-large">Hi, I'm Hanuma Teja.</h3>
+        <p class="section-subtitle" style="margin-top: 1rem;">Backend Developer & Software Engineer</p>
+      </div>
+      <div class="about-text-content">
+        <p class="fade-up">
+          I am a <strong>Full-Stack Backend Developer</strong> with a strong focus on optimizing distributed systems and building secure, scalable architectures. I enjoy transforming complex requirements into clean, efficient APIs that deliver real performance value.
+        </p>
+      </div>
+    </section>
+    <section class="section" id="experience">
+      <div class="section-header-left fade-up">
+        <span class="section-tag">MY JOURNEY</span>
+        <h3 class="section-heading-large">Experience</h3>
+      </div>
+      <div class="exp-card fade-up">
+        <div class="exp-header">
+          <div class="exp-title-group">
+            <h4>Software Engineer Trainee</h4>
+            <span class="exp-company">Cisco Systems</span>
+          </div>
+          <span class="exp-date-badge">Nov 2024 — Nov 2025</span>
+        </div>
+        <div class="exp-body">
+          <p class="fade-up">
+            During my time at Cisco Systems, I focused on improving backend service reliability and observability. I optimized existing REST APIs by reducing redundant Redis caching lookups, which successfully accelerated authentication response times by 15%. I also contributed to standardizing JSON logging across 4 microservices to improve system monitoring.
+          </p>
+          <p class="fade-up">
+            To enhance application security, I mitigated over 10 distinct vulnerabilities through targeted dependency upgrades and code refactoring. Additionally, I configured Jenkins CI/CD pipelines for automated AWS ECR deployments, developed Swagger (OpenAPI) documentation for easier team onboarding, and expanded our test coverage to 85% using JUnit 5 and Mockito.
+          </p>
+        </div>
+        <div class="tech-tags fade-up" style="margin-top: 1.5rem;">
+          <span>Java</span><span>Spring Boot</span><span>Redis</span><span>JUnit 5</span><span>Docker</span><span>AWS</span><span>Jenkins</span><span>CI/CD</span>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="stack">
+      <div class="section-header-left fade-up">
+        <h3 class="section-heading-large">Stack & Tools</h3>
+        <p class="section-subtitle">Technologies and tools I use to build reliable systems.</p>
+      </div>
+      <div class="stack-pills fade-up" style="margin-top: 2rem; gap: 1rem;">
+        <span>Java</span>
+        <span>Spring Boot</span>
+        <span>Python</span>
+        <span>FastAPI</span>
+        <span>Kafka</span>
+        <span>Redis</span>
+        <span>REST APIs</span>
+        <span>React.js</span>
+        <span>JavaScript</span>
+        <span>HTML/CSS</span>
+        <span>AWS</span>
+        <span>Jenkins CI/CD</span>
+        <span>Git</span>
+        <span>GitHub</span>
+        <span>Postman</span>
+        <span>JUnit 5</span>
+        <span>Mockito</span>
+        <span>OAuth2</span>
+        <span>JWT</span>
+      </div>
+    </section>
+    <section class="section" id="projects">
+      <div class="section-header fade-up">
+        <span class="section-tag">FEATURED WORK</span>
+        <h3 class="section-heading">Projects</h3>
+      </div>
+      <div class="projects-list">
+        <div class="project-card fade-up">
+          <div class="project-content">
+            <h4 style="display: flex; align-items: center; gap: 0.75rem;">
+              Cipher - Realtime Chat
+              <a href="https://cipher-app-three.vercel.app/" target="_blank" class="live-demo-badge">Live Demo</a>
+            </h4>
+            <p>A full-stack web application featuring secure user authentication via OAuth2 and JWT. Implemented real-time communication with live user presence.</p>
+            <div class="tech-tags">
+              <span>Spring Boot</span><span>React</span><span>OAuth2</span><span>MySQL</span>
+            </div>
+          </div>
+          <a href="https://cipher-app-three.vercel.app/" target="_blank" class="project-arrow-btn" aria-label="View Project">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        </div>
+        <div class="project-card fade-up">
+          <div class="project-content">
+            <h4>Incident Management Platform</h4>
+            <p>Platform for creating and tracking incidents with role-based access control and audit tracking. Uses Kafka for event streaming and Redis caching.</p>
+            <div class="tech-tags">
+              <span>Java</span><span>Spring Boot</span><span>Kafka</span><span>Redis</span>
+            </div>
+          </div>
+          <a href="https://github.com/thejatez" target="_blank" class="project-arrow-btn" aria-label="View Project">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        </div>
+        <div class="project-card fade-up">
+          <div class="project-content">
+            <h4>Incident AI Service</h4>
+            <p>AI incident analysis service using an LLM to generate summaries and severity classifications. Retrieved historical incidents via RAG pipeline.</p>
+            <div class="tech-tags">
+              <span>Python</span><span>FastAPI</span><span>Gemini</span><span>ChromaDB</span>
+            </div>
+          </div>
+          <a href="https://github.com/thejatez/Incident-ai-service" target="_blank" class="project-arrow-btn" aria-label="View Project">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        </div>
+        <div class="project-card fade-up">
+          <div class="project-content">
+            <h4>EndpointCheck</h4>
+            <p>Built a tool to validate REST APIs by checking response status, measuring latency, handling connection errors, and generating JSON reports with pass/fail summaries.</p>
+            <div class="tech-tags">
+              <span>Python</span><span>Pytest</span><span>GitHub</span>
+            </div>
+          </div>
+          <a href="https://github.com/thejatez/EndpointCheck" target="_blank" class="project-arrow-btn" aria-label="View Project">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    <footer class="section" id="contact">
+      <div class="footer-contact fade-up">
+        <a href="https://cipher-app-three.vercel.app/" target="_blank" class="btn-primary" style="padding: 1rem 3rem;">Chat with Cipher</a>
+        <div class="social-icons">
+          <a href="mailto:hanumathejapg@gmail.com" class="social-icon" aria-label="Email">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          </a>
+          <a href="https://github.com/thejatez" target="_blank" class="social-icon" aria-label="GitHub">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/hanuma-teja" target="_blank" class="social-icon" aria-label="LinkedIn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+        </div>
+      </div>
+      <p class="copyright fade-up">© 2026 Hanuma Teja.</p>
+    </footer>
+  </main>
+  <script src="oneko.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
