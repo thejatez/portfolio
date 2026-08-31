@@ -423,8 +423,14 @@ body {
     width: max-content;
     gap: 1.5rem;
   }
-  .hero-title { font-size: 1.75rem; }
-  .section-heading-large { font-size: 1.75rem; }
+  .hero-title { 
+    font-size: clamp(1rem, 7vw, 1.5rem); 
+    white-space: nowrap; 
+  }
+  .section-heading-large { 
+    font-size: clamp(1rem, 7vw, 1.5rem); 
+    white-space: nowrap; 
+  }
   .section-heading { font-size: 1.25rem; }
   .hero-actions { flex-direction: column; width: 100%; align-items: center; }
   .stack-categories { grid-template-columns: 1fr; gap: 2rem; }
