@@ -28,11 +28,10 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-main);
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 60%),
-    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 50px 50px, 50px 50px;
-  background-position: center top, center center, center center;
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('bg.jpg');
+  background-size: cover;
+  background-position: center center;
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
@@ -84,7 +83,7 @@ body {
   opacity: 1;
 }
 .main-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1.5rem;
   padding-top: 160px;
@@ -306,20 +305,23 @@ body {
   background: var(--bg-card);
 }
 .projects-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
 .project-card {
   display: flex;
   flex-direction: column;
-  background: transparent;
-  padding: 2rem 0;
-  border: none;
-  transition: transform 0.2s;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2rem;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  transition: transform 0.2s, background 0.2s;
+  backdrop-filter: blur(10px);
 }
 .project-card:hover {
   transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.04);
 }
 .project-content {
   width: 100%;
@@ -444,15 +446,9 @@ body {
   .section-heading { font-size: 1.25rem; }
   .hero-actions { flex-direction: column; width: 100%; align-items: center; }
   .stack-categories { grid-template-columns: 1fr; gap: 2rem; }
+  .projects-list { grid-template-columns: 1fr; }
   .project-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-  }
-  .project-arrow-btn {
-    align-self: flex-start;
-    margin-left: 0;
+    padding: 1.5rem;
   }
   .metrics-grid {
     grid-template-columns: 1fr;
