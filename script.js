@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const words = [
       "Hanuma Teja",
       "Backend Developer",
-      "Full-Stack Developer"
+      "AI Engineer"
     ];
     let wordIndex = 0;
     let charIndex = 0;
