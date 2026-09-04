@@ -53,61 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Initialize GitHub Calendar (Real Data)
-  if (typeof GitHubCalendar !== 'undefined') {
-    function styleCalendarSquares() {
-      const cal = document.querySelector('.calendar');
-      if (!cal) return;
-
-      // Purge weekday labels and skip text
-      cal.querySelectorAll('.sr-only, a.sr-only, h2, a').forEach(el => {
-        if (el.textContent.includes('Skip') || el.classList.contains('sr-only')) {
-          el.remove();
-        }
-      });
-      cal.querySelectorAll('text').forEach(t => {
-        const txt = t.textContent.trim();
-        if (['Mon', 'Wed', 'Fri', 'Tue', 'Thu', 'Sat', 'Sun'].includes(txt)) {
-          t.remove();
-        }
-      });
-
-      // Monochrome gray palette
-      const grayPalette = {
-        '0': '#1a1a1f',
-        '1': '#363640',
-        '2': '#5f5f6e',
-        '3': '#9393a2',
-        '4': '#dcdce4'
-      };
-
-      // Target all day cells (both TD elements and SVG rect elements)
-      cal.querySelectorAll('.ContributionCalendar-day, td[data-level], rect[data-level]').forEach(cell => {
-        const level = cell.getAttribute('data-level');
-        if (level !== null && grayPalette[level]) {
-          cell.style.setProperty('background-color', grayPalette[level], 'important');
-          cell.style.setProperty('fill', grayPalette[level], 'important');
-          cell.style.borderRadius = '2px';
-          if (cell.tagName.toLowerCase() === 'rect') {
-            cell.setAttribute('fill', grayPalette[level]);
-          }
-        }
-      });
-    }
-
-    GitHubCalendar(".calendar", "thejatez", {
-      responsive: true,
-      tooltips: true
-    }).then(function () {
-      styleCalendarSquares();
-      setTimeout(styleCalendarSquares, 250);
-      setTimeout(styleCalendarSquares, 1000);
-    }).catch(function (e) {
-      console.error('Error loading GitHub Calendar:', e);
-      const cal = document.querySelector('.calendar');
-      if (cal) cal.innerHTML = 'Failed to load GitHub activity data.';
-    });
-  }
 
   // Back to Top Click Handler
   const backToTop = document.getElementById('back-to-top');

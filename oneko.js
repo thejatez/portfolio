@@ -17,6 +17,7 @@
   let idleAnimationFrame = 0;
   const nekoSpeed = 10;
   let isPenMode = false;
+  let hasEnteredPen = false;
   let ballEl = null;
   let ballX = 0;
   let ballY = 0;
@@ -187,10 +188,12 @@
           const minY = rect.top + 20;
           const maxY = rect.bottom - 20;
 
-          nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
-          nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
-          nekoEl.style.left = `${nekoPosX - 16}px`;
-          nekoEl.style.top = `${nekoPosY - 16}px`;
+          if (hasEnteredPen) {
+            nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
+            nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
+            nekoEl.style.left = `${nekoPosX - 16}px`;
+            nekoEl.style.top = `${nekoPosY - 16}px`;
+          }
 
           if (ballEl) {
             ballX = Math.min(Math.max(minX - 4, ballX), maxX + 4);
@@ -284,6 +287,7 @@
     const coverEl = document.querySelector(".profile-cover");
 
     if (isPenMode) {
+      hasEnteredPen = false;
       if (penBtn) {
         penBtn.classList.add("active");
         penBtn.innerHTML = '<span class="pen-icon">🧶</span><span class="pen-label">Release</span>';
@@ -296,21 +300,23 @@
       }
       if (coverEl) {
         const rect = coverEl.getBoundingClientRect();
-        // Immediately place cat and ball inside the banner so it never gets lost across scroll heights
-        nekoPosX = rect.left + rect.width / 2 - 25;
-        nekoPosY = rect.top + rect.height / 2;
-        nekoEl.style.left = `${nekoPosX - 16}px`;
-        nekoEl.style.top = `${nekoPosY - 16}px`;
-
-        ballX = rect.left + rect.width / 2 + 25;
+        // The ball releases and starts running through the box!
+        ballX = rect.left + rect.width / 2;
         ballY = rect.top + rect.height / 2;
-        ballVx = (Math.random() > 0.5 ? 1 : -1) * 3.2;
-        ballVy = (Math.random() > 0.5 ? 1 : -1) * 2.2;
+        ballVx = (Math.random() > 0.5 ? 1 : -1) * 3.4;
+        ballVy = (Math.random() > 0.5 ? 1 : -1) * 2.4;
         ballEl.style.left = `${ballX - 6}px`;
         ballEl.style.top = `${ballY - 6}px`;
+
+        // If the cat is already inside or right at the banner, mark entered immediately
+        if (nekoPosX >= rect.left + 10 && nekoPosX <= rect.right - 10 &&
+            nekoPosY >= rect.top + 10 && nekoPosY <= rect.bottom - 10) {
+          hasEnteredPen = true;
+        }
       }
-      showSpeechBubble("Playpen time! 🧶");
+      showSpeechBubble("Yarn time! 🧶");
     } else {
+      hasEnteredPen = false;
       if (penBtn) {
         penBtn.classList.remove("active");
         penBtn.innerHTML = '<span class="pen-icon">🧶</span><span class="pen-label">Playpen</span>';
@@ -500,9 +506,19 @@
         const minY = rect.top + 20;
         const maxY = rect.bottom - 20;
 
-        // In pen mode, cat is permanently and strictly anchored inside the banner
-        nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
-        nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
+        // Check if cat just arrived into the banner
+        if (!hasEnteredPen) {
+          if (nekoPosX >= minX - 15 && nekoPosX <= maxX + 15 &&
+              nekoPosY >= minY - 15 && nekoPosY <= maxY + 15) {
+            hasEnteredPen = true;
+          }
+        }
+
+        // Once inside, keep cat permanently anchored inside the banner
+        if (hasEnteredPen) {
+          nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
+          nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
+        }
       }
     } else {
       nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
