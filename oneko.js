@@ -16,6 +16,13 @@
   let idleAnimation = null;
   let idleAnimationFrame = 0;
   const nekoSpeed = 10;
+  let isPenMode = false;
+  let ballEl = null;
+  let ballX = 0;
+  let ballY = 0;
+  let ballVx = 3.2;
+  let ballVy = 2.2;
+  let lastBatTime = 0;
   const spriteSets = {
     idle: [[-3, -3]],
     alert: [[-7, -3]],
@@ -133,7 +140,7 @@
         mousePosY = event.touches[0].clientY;
       }
     });
-    document.addEventListener("click", function(event) {
+    document.addEventListener("click", function (event) {
       const diffX = nekoPosX - event.clientX;
       const diffY = nekoPosY - event.clientY;
       const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
@@ -156,12 +163,54 @@
         }));
       });
     }
+
+    function setupPenBtn() {
+      const penBtn = document.getElementById("cat-pen-btn");
+      if (penBtn && !penBtn.dataset.bound) {
+        penBtn.dataset.bound = "true";
+        penBtn.addEventListener("click", function (event) {
+          event.stopPropagation();
+          togglePenMode();
+        });
+      }
+    }
+    setupPenBtn();
+    document.addEventListener("DOMContentLoaded", setupPenBtn);
+
+    window.addEventListener("scroll", function () {
+      if (isPenMode) {
+        const coverEl = document.querySelector(".profile-cover");
+        if (coverEl) {
+          const rect = coverEl.getBoundingClientRect();
+          const minX = rect.left + 20;
+          const maxX = rect.right - 20;
+          const minY = rect.top + 20;
+          const maxY = rect.bottom - 20;
+
+          nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
+          nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
+          nekoEl.style.left = `${nekoPosX - 16}px`;
+          nekoEl.style.top = `${nekoPosY - 16}px`;
+
+          if (ballEl) {
+            ballX = Math.min(Math.max(minX - 4, ballX), maxX + 4);
+            ballY = Math.min(Math.max(minY - 4, ballY), maxY + 4);
+            ballEl.style.left = `${ballX - 6}px`;
+            ballEl.style.top = `${ballY - 6}px`;
+          }
+        }
+      }
+    }, { passive: true });
+
     window.requestAnimationFrame(onAnimationFrame);
   }
   let lastFrameTimestamp;
   function onAnimationFrame(timestamp) {
     if (!nekoEl.isConnected) {
       return;
+    }
+    if (isPenMode) {
+      updateBall();
     }
     if (!lastFrameTimestamp) {
       lastFrameTimestamp = timestamp;
@@ -171,6 +220,110 @@
       frame();
     }
     window.requestAnimationFrame(onAnimationFrame);
+  }
+
+  function updateBall() {
+    if (!isPenMode || !ballEl) return;
+    const coverEl = document.querySelector(".profile-cover");
+    if (!coverEl) return;
+    const rect = coverEl.getBoundingClientRect();
+
+    const minX = rect.left + 16;
+    const maxX = rect.right - 16;
+    const minY = rect.top + 16;
+    const maxY = rect.bottom - 16;
+
+    ballX += ballVx;
+    ballY += ballVy;
+
+    if (ballX <= minX) {
+      ballX = minX;
+      ballVx = Math.abs(ballVx);
+    } else if (ballX >= maxX) {
+      ballX = maxX;
+      ballVx = -Math.abs(ballVx);
+    }
+
+    if (ballY <= minY) {
+      ballY = minY;
+      ballVy = Math.abs(ballVy);
+    } else if (ballY >= maxY) {
+      ballY = maxY;
+      ballVy = -Math.abs(ballVy);
+    }
+
+    ballEl.style.left = `${ballX - 6}px`;
+    ballEl.style.top = `${ballY - 6}px`;
+
+    const now = Date.now();
+    if (now - lastBatTime > 300) {
+      const dist = Math.hypot(nekoPosX - ballX, nekoPosY - ballY);
+      if (dist < 26) {
+        lastBatTime = now;
+        const angle = Math.atan2(ballY - nekoPosY, ballX - nekoPosX) + (Math.random() - 0.5) * 0.6;
+        const speed = 4 + Math.random() * 2.5;
+        ballVx = Math.cos(angle) * speed;
+        ballVy = Math.sin(angle) * speed;
+
+        ballEl.style.transform = "scale(1.4)";
+        setTimeout(() => {
+          if (ballEl) ballEl.style.transform = "scale(1)";
+        }, 120);
+
+        if (Math.random() < 0.2) {
+          const batPhrases = ["Got it! 🧶", "Mine! 🐾", "Wheee! 😸", "Catch! 🧶"];
+          showSpeechBubble(batPhrases[Math.floor(Math.random() * batPhrases.length)]);
+        }
+      }
+    }
+  }
+
+  function togglePenMode() {
+    isPenMode = !isPenMode;
+    const penBtn = document.getElementById("cat-pen-btn");
+    const coverEl = document.querySelector(".profile-cover");
+
+    if (isPenMode) {
+      if (penBtn) {
+        penBtn.classList.add("active");
+        penBtn.innerHTML = '<span class="pen-icon">🧶</span><span class="pen-label">Release</span>';
+        penBtn.title = "Release cat to roam";
+      }
+      if (!ballEl) {
+        ballEl = document.createElement("div");
+        ballEl.className = "cat-toy-ball";
+        document.body.appendChild(ballEl);
+      }
+      if (coverEl) {
+        const rect = coverEl.getBoundingClientRect();
+        // Immediately place cat and ball inside the banner so it never gets lost across scroll heights
+        nekoPosX = rect.left + rect.width / 2 - 25;
+        nekoPosY = rect.top + rect.height / 2;
+        nekoEl.style.left = `${nekoPosX - 16}px`;
+        nekoEl.style.top = `${nekoPosY - 16}px`;
+
+        ballX = rect.left + rect.width / 2 + 25;
+        ballY = rect.top + rect.height / 2;
+        ballVx = (Math.random() > 0.5 ? 1 : -1) * 3.2;
+        ballVy = (Math.random() > 0.5 ? 1 : -1) * 2.2;
+        ballEl.style.left = `${ballX - 6}px`;
+        ballEl.style.top = `${ballY - 6}px`;
+      }
+      showSpeechBubble("Playpen time! 🧶");
+    } else {
+      if (penBtn) {
+        penBtn.classList.remove("active");
+        penBtn.innerHTML = '<span class="pen-icon">🧶</span><span class="pen-label">Playpen</span>';
+        penBtn.title = "Put cat in playpen";
+      }
+      if (ballEl && ballEl.parentNode) {
+        ballEl.remove();
+        ballEl = null;
+      }
+      nekoPosY += 25;
+      nekoEl.style.top = `${nekoPosY - 16}px`;
+      showSpeechBubble("I'm back! 🐾");
+    }
   }
   function setSprite(name, frame) {
     const sprite = spriteSets[name][frame % spriteSets[name].length];
@@ -202,7 +355,7 @@
       }
       idleAnimation =
         avalibleIdleAnimations[
-          Math.floor(Math.random() * avalibleIdleAnimations.length)
+        Math.floor(Math.random() * avalibleIdleAnimations.length)
         ];
     }
     switch (idleAnimation) {
@@ -234,12 +387,11 @@
   }
   const messages = [
     "Meow!",
+    "Hello, Tiger Pasta reporting!",
     "I'm working here!",
     "Are you a recruiter?",
     "Hire Hanuma!",
-    "Need backend scaling?",
-    "Stop poking me!",
-    "Go check out Cipher."
+    "Stop poking me!"
   ];
   function showSpeechBubble(customMessage) {
     const bubble = document.createElement("div");
@@ -277,7 +429,7 @@
     paw.textContent = "🐾";
     paw.style.position = "fixed";
     let rotation = 0;
-    switch(direction) {
+    switch (direction) {
       case "N": rotation = 0; break;
       case "NE": rotation = 45; break;
       case "E": rotation = 90; break;
@@ -292,7 +444,7 @@
     paw.style.top = `${y - 4}px`;
     paw.style.fontSize = "12px";
     paw.style.pointerEvents = "none";
-    paw.style.zIndex = 2147483646; 
+    paw.style.zIndex = 2147483646;
     paw.style.opacity = "0.9";
     paw.style.transform = `rotate(${rotation}deg)`;
     paw.style.filter = "grayscale(100%) brightness(300%)";
@@ -306,12 +458,20 @@
   }
   function frame() {
     frameCount += 1;
-    const diffX = nekoPosX - mousePosX;
-    const diffY = nekoPosY - mousePosY;
+    let targetX = mousePosX;
+    let targetY = mousePosY;
+
+    if (isPenMode) {
+      targetX = ballX;
+      targetY = ballY;
+    }
+
+    const diffX = nekoPosX - targetX;
+    const diffY = nekoPosY - targetY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
-    if (distance < nekoSpeed || distance < 48) {
+    if (distance < nekoSpeed || distance < (isPenMode ? 18 : 48)) {
       idle();
-      runningFrameCount = 0; 
+      runningFrameCount = 0;
       return;
     }
     idleAnimation = null;
@@ -330,21 +490,45 @@
     setSprite(direction, frameCount);
     nekoPosX -= (diffX / distance) * nekoSpeed;
     nekoPosY -= (diffY / distance) * nekoSpeed;
-    nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
-    nekoPosY = Math.min(Math.max(16, nekoPosY), window.innerHeight - 16);
+
+    if (isPenMode) {
+      const coverEl = document.querySelector(".profile-cover");
+      if (coverEl) {
+        const rect = coverEl.getBoundingClientRect();
+        const minX = rect.left + 20;
+        const maxX = rect.right - 20;
+        const minY = rect.top + 20;
+        const maxY = rect.bottom - 20;
+
+        // In pen mode, cat is permanently and strictly anchored inside the banner
+        nekoPosX = Math.min(Math.max(minX, nekoPosX), maxX);
+        nekoPosY = Math.min(Math.max(minY, nekoPosY), maxY);
+      }
+    } else {
+      nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
+      nekoPosY = Math.min(Math.max(16, nekoPosY), window.innerHeight - 16);
+    }
+
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
     if (frameCount % 6 === 0) {
       createFootprint(nekoPosX, nekoPosY, direction);
     }
     runningFrameCount += 1;
-    if (runningFrameCount === 40) { 
-       const runningMessages = ["Wait up!", "Slow down!", "Hold on a second, I'm coming!", "I have tiny legs!", "Where are we going?!"];
-       showSpeechBubble(runningMessages[Math.floor(Math.random() * runningMessages.length)]);
+    if (!isPenMode && runningFrameCount === 40) {
+      const runningMessages = ["Wait up!", "Slow down!", "Hold on a second, I'm coming!", "I have tiny legs!", "Where are we going?!"];
+      showSpeechBubble(runningMessages[Math.floor(Math.random() * runningMessages.length)]);
     }
     if (runningFrameCount > 150) {
-       runningFrameCount = 0;
+      runningFrameCount = 0;
     }
   }
   init();
+  window.addEventListener("load", () => {
+    const pageLoader = document.getElementById("page-loader");
+    const delay = pageLoader ? 3400 : 1200;
+    setTimeout(() => {
+      showSpeechBubble("Hello, Tiger Pasta reporting! 🐾");
+    }, delay);
+  });
 })();
