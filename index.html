@@ -383,6 +383,12 @@
   </main>
   <script src="oneko.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Silently remove UTM tracking query params from the browser address bar after page load
+    if (window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  </script>
 </body>
 
 </html>
